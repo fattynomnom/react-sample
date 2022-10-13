@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "main": "src/index.tsx",
   "license": "MIT",
+  "engines": {
+    "node": "18.8.0"
+  },
   "scripts": {
     "start": "webpack serve --mode development --open --config webpack.ts",
     "build": "webpack --mode production --config webpack.ts",
