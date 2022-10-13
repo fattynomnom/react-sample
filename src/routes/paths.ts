@@ -5,8 +5,15 @@ export const Example = lazy(() =>
     default: module.Example,
   })),
 )
+
 export const GenericNotFound = lazy(() =>
   import('src/pages/GenericNotFound/GenericNotFound').then(module => ({
     default: module.GenericNotFound,
+  })),
+)
+
+export const Portfolios = lazy(() =>
+  import('src/pages/Portfolios/Portfolios').then(module => ({
+    default: module.Portfolios,
   })),
 )

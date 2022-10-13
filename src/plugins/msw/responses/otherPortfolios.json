@@ -1,0 +1,29 @@
+[
+  {
+    "id": "1",
+    "name": "5% Equity - 95% Bonds"
+  },
+  {
+    "id": "2",
+    "name": "10% Equity - 90% Bonds"
+  },
+  {
+    "id": "3",
+    "name": "20% Equity - 80% Bonds"
+  },
+  {
+    "id": "4",
+    "name": "28% Equity - 72% Bonds"
+  },
+  {
+    "id": "5",
+    "name": "33% Equity - 67% Bonds"
+  },{
+    "id": "6",
+    "name": "40% Equity - 60% Bonds"
+  },
+  {
+    "id": "7",
+    "name": "45% Equity - 55% Bonds"
+  }
+]

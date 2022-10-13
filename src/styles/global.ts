@@ -15,4 +15,9 @@ export default createGlobalStyle`
   button {
     cursor: pointer;
   }
+
+  h1 {
+    font-family: 'Inter', sans-serif;
+    color: #2b2b2b;
+  }
 `

@@ -4,7 +4,7 @@ FROM node:alpine as build
 
 WORKDIR /usr/src/app
 
-COPY package.json yarn.lock ./
+COPY package.json package-lock.json ./
 
 RUN NODE_ENV=development yarn install
 
