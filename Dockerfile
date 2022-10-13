@@ -6,11 +6,11 @@ WORKDIR /usr/src/app
 
 COPY package.json package-lock.json ./
 
-RUN NODE_ENV=development yarn install
+RUN NODE_ENV=development npm install
 
 COPY . .
 
-RUN yarn build
+RUN npm run build
 
 ## UP NGINX STAGE
 
