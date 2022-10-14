@@ -1,6 +1,6 @@
-import { Return } from "src/@types/Portfolio";
+import { Return } from '../../../types/Portfolio.d'
 
-export default (startMonth: number, endMonth: number): Return[] => {
+const MonthlyReturnsFactory = (startMonth: number, endMonth: number): Return[] => {
   const returns: Return[] = []
   for (let month = startMonth; month <= endMonth; month++) {
     returns.push({ month, returnsPercentage: Math.random() * 10 })
@@ -8,3 +8,5 @@ export default (startMonth: number, endMonth: number): Return[] => {
 
   return returns
 }
+
+export default MonthlyReturnsFactory

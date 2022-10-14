@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import moment, { Moment } from 'moment'
 import { Card, Form, Select, DatePicker } from 'antd'
-import { Portfolio, PortfolioDetails, RangeValue } from 'src/@types/Portfolio'
+import { Portfolio, PortfolioDetails, RangeValue } from '../../types/Portfolio.d'
 
 export const FilterCard = (props: {
   sriPortfolios: Portfolio[]
@@ -18,22 +18,24 @@ export const FilterCard = (props: {
 
   const disabledDate = (date: Moment) => date.isAfter(moment())
 
-  useEffect(() => {
-    console.log(selectedSriPortfolioId)
-    props.onSriPortfolioSelected(selectedSriPortfolioId, dateRange)
-  }, [selectedSriPortfolioId])
+  const onSriPortfolioSelected = (value: string) => {
+    setSelectedSriPortfolioId(value)
+    props.onSriPortfolioSelected(value, dateRange)
+  }
 
-  useEffect(() => {
-    props.onOtherPortfolioSelected(selectedOtherPortfolioIds, dateRange)
-  }, [selectedOtherPortfolioIds])
+  const onOtherPortfolioSelected = (value: string[]) => {
+    setSelectedOtherPortfolioIds(value)
+    props.onOtherPortfolioSelected(value, dateRange)
+  }
 
-  useEffect(() => {
-    props.onDateRangeSelected(selectedSriPortfolioId, selectedOtherPortfolioIds, dateRange)
-  }, [dateRange])
+  const onDateRangeSelected = (value: RangeValue) => {
+    setDateRange(value)
+    props.onDateRangeSelected(selectedSriPortfolioId, selectedOtherPortfolioIds, value)
+  }
 
   useEffect(() => {
     if (props.sriPortfolios.length > 0) {
-      setSelectedSriPortfolioId(props.sriPortfolios[0].id)
+      onSriPortfolioSelected(props.sriPortfolios[0].id)
     }
   }, [props.sriPortfolios])
 
@@ -42,12 +44,17 @@ export const FilterCard = (props: {
       <Form.Item label="StashAway's portfolios">
         <Select
           value={props.sriPortfolios[0]?.id || null}
-          onChange={setSelectedSriPortfolioId}
+          onChange={onSriPortfolioSelected}
           allowClear={false}
         >
           {
             props.sriPortfolios.map(portfolio => (
-              <Select.Option value={portfolio.id}>{portfolio.name}</Select.Option>
+              <Select.Option
+                value={portfolio.id}
+                key={portfolio.id}
+              >
+                {portfolio.name}
+              </Select.Option>
             ))
           }
         </Select>
@@ -57,22 +64,30 @@ export const FilterCard = (props: {
           mode="multiple"
           allowClear
           defaultValue={[]}
-          onChange={setSelectedOtherPortfolioIds}
+          onChange={onOtherPortfolioSelected}
         >
           {
             props.otherPortfolios.map(portfolio => (
-              <Select.Option value={portfolio.id}>{portfolio.name}</Select.Option>
+              <Select.Option
+                value={portfolio.id}
+                key={portfolio.id}
+              >
+                {portfolio.name}
+              </Select.Option>
             ))
           }
         </Select>
       </Form.Item>
-      <DatePicker.RangePicker
-        picker="month"
-        defaultValue={dateRange}
-        disabledDate={disabledDate}
-        onChange={setDateRange}
-        format="MMMM YYYY"
-      />
+      <Form.Item label="Months">
+        <DatePicker.RangePicker
+          picker="month"
+          defaultValue={dateRange}
+          disabledDate={disabledDate}
+          onChange={onDateRangeSelected}
+          format="MMMM YYYY"
+          style={{ width: '100%' }}
+        />
+      </Form.Item>
     </Form>
   </Card>
 }

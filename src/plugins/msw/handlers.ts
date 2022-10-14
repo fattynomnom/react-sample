@@ -2,11 +2,11 @@ import { rest } from 'msw'
 import portfolios from './responses/portfolios.json'
 import otherPortfolios from './responses/otherPortfolios.json'
 import MonthlyReturnsFactory from './factories/MonthlyReturnsFactory'
-import { PortfolioDetails } from 'src/@types/Portfolio'
+import { PortfolioDetails } from '../../types/Portfolio.d'
 
 const baseUrl = process.env.REACT_APP_API_PATH
 
-export default [
+const handlers = [
   rest.get(`${baseUrl}/portfolios`, (_, response, context) => {
     return response(context.status(200), context.json(portfolios))
   }),
@@ -39,3 +39,5 @@ export default [
     return response(context.status(200), context.json(filteredPortfolios))
   })
 ]
+
+export default handlers
