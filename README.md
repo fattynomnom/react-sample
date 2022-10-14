@@ -6,7 +6,7 @@ This is a simple app to compare StashAway product returns with competitor return
 - Run `npm run install`
 
 # Development
-Use `npm run dev` to serve in the web app in development mode
+Use `npm run dev` to serve the web app in development mode
 
 # Production
 1. Run `npm run build`
