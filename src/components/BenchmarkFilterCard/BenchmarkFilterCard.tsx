@@ -1,6 +1,6 @@
 import { ChangeEvent } from 'react'
 import { Select } from '@chakra-ui/react'
-import { PortfolioDetails } from '../../types/Portfolio'
+import { Currency, PortfolioDetails } from '../../types/Portfolio'
 import { PeriodOption, PeriodValue } from './types'
 import './styles.css'
 
@@ -9,11 +9,11 @@ export const BenchmarkFilterCard = (props: {
   benchmarkPortfolios: PortfolioDetails[]
   periodOptions: PeriodOption[]
   selectedPeriod: PeriodOption
-  currencies: string[]
+  currencies: Currency[]
   selectedCurrency: string
   onBenchmarkPortfolioSelected: (id: string) => void
   onPeriodSelected: (range: PeriodOption) => void
-  onCurrencySelected: (currency: string) => void
+  onCurrencySelected: (currency: Currency) => void
 }) => {
   const {
     portfolioName, 

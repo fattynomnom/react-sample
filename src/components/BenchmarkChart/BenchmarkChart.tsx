@@ -1,14 +1,16 @@
 import { useMemo } from 'react'
 import CanvasJS from '../../lib/CanvasJS/canvasjs.react'
-import { PortfolioDetails, ReturnPeriod } from '../../types/Portfolio'
+import { Currency, PortfolioDetails, ReturnPeriod } from '../../types/Portfolio'
 
 export const BenchmarkChart = (props: {
     period: ReturnPeriod
+    currency: Currency
     portfolio: PortfolioDetails | null
     benchmarkPortfolio: PortfolioDetails | null
 }) => {
     const {
       period,
+      currency,
       portfolio,
       benchmarkPortfolio
     } = props
@@ -30,7 +32,7 @@ export const BenchmarkChart = (props: {
       theme: 'dark2',
       title: { text: '' },
       backgroundColor: '#072340',
-      axisY: { title: '' },
+      axisY: { title: '', suffix: currency },
       axisX: {
         title: '',
         interval: 1,

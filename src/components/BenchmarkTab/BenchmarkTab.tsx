@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import moment from 'moment'
 import { Skeleton, Stack } from '@chakra-ui/react'
-import { PortfolioDetails } from '../../types/Portfolio.d'
+import { Currency, PortfolioDetails } from '../../types/Portfolio.d'
 import { PeriodOption } from '../BenchmarkFilterCard/types'
 import { getBenchmarkPortfolios, getSriPortfolioDetails } from '../../repositories'
 import { BenchmarkFilterCard } from '../BenchmarkFilterCard/BenchmarkFilterCard'
@@ -40,7 +40,7 @@ export const BenchmarkTab = () => {
       period: 'yearly' 
     }
   ]
-  const currencies: string[] = ['SGD', 'USD']
+  const currencies: Currency[] = ['SGD', 'USD']
 
   const [doShowError, setDoShowError] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -52,11 +52,11 @@ export const BenchmarkTab = () => {
 
   const [selectedPeriod, setSelectedPeriod] = useState<PeriodOption>(periodOptions[0])
   const [selectedBenchmarkPortfolioId, setSelectedBenchmarkPortfolioId] = useState<string>()
-  const [selectedCurrency, setSelectedCurrency] = useState<string>(currencies[0])
+  const [selectedCurrency, setSelectedCurrency] = useState<Currency>(currencies[0])
 
   const fetchAllBenchmarkPortfolios = () => {
     setIsLoading(true)
-    getBenchmarkPortfolios([], selectedPeriod.range, selectedPeriod.period)
+    getBenchmarkPortfolios([], selectedPeriod.range, selectedPeriod.period, selectedCurrency)
       .then(({ data }) => {
         if (data.length === 0) {
           setDoShowError(true)
@@ -74,7 +74,7 @@ export const BenchmarkTab = () => {
     if (!selectedBenchmarkPortfolioId) return
 
     setIsLoading(true)
-    getBenchmarkPortfolios([selectedBenchmarkPortfolioId], selectedPeriod.range, selectedPeriod.period)
+    getBenchmarkPortfolios([selectedBenchmarkPortfolioId], selectedPeriod.range, selectedPeriod.period, selectedCurrency)
       .then(({ data }) => {
         if (data.length === 0) {
           setDoShowError(true)
@@ -90,7 +90,7 @@ export const BenchmarkTab = () => {
 
   const fetchPortfolio = () => {
     setIsLoading(true)
-    getSriPortfolioDetails('1', selectedPeriod.range, selectedPeriod.period)
+    getSriPortfolioDetails('1', selectedPeriod.range, selectedPeriod.period, selectedCurrency)
       .then(({ data }) => {
         setSelectedPortfolio(data)
       })
@@ -133,6 +133,7 @@ export const BenchmarkTab = () => {
       />
       <BenchmarkChart
         period={selectedPeriod.period}
+        currency={selectedCurrency}
         portfolio={selectedPortfolio}
         benchmarkPortfolio={selectedBenchmarkPortfolio}
       />

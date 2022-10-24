@@ -6,6 +6,7 @@ export interface Portfolio {
 export interface Return {
   date: string
   value: number
+  currency: Currency
 }
 
 export interface PortfolioDetails extends Portfolio {
@@ -13,3 +14,5 @@ export interface PortfolioDetails extends Portfolio {
 }
 
 export type ReturnPeriod = 'daily' | 'monthly' | 'yearly'
+
+export type Currency = 'SGD' | 'USD'

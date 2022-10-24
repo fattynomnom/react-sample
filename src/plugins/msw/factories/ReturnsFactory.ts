@@ -1,7 +1,7 @@
 import moment from 'moment'
-import { Return, ReturnPeriod } from '../../../types/Portfolio'
+import { Currency, Return, ReturnPeriod } from '../../../types/Portfolio'
 
-const ReturnsFactory = (range: string[], period: ReturnPeriod): Return[] => {
+const ReturnsFactory = (range: string[], period: ReturnPeriod, currency: Currency): Return[] => {
     let currentDate = moment().subtract(10, 'years').toDate()
     let endDate = moment().toDate()
 
@@ -24,7 +24,8 @@ const ReturnsFactory = (range: string[], period: ReturnPeriod): Return[] => {
 
     return dates.map(date => ({
         date: date.toString(),
-        value: Math.floor((Math.random() * 400000) + 100000)
+        value: Math.floor((Math.random() * 400000) + 100000),
+        currency
     }))
 }
 
