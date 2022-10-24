@@ -35,7 +35,7 @@ const App = () => {
     </li>
   )
   const nav: NavItem[] = [
-    { title: 'Home', path: '/', page: <Home /> },
+    { title: 'Home', header: 'General investing', path: '/', page: <Home /> },
     { title: 'Manage deposits', path: '/deposits', page: <ComingSoon /> },
     { title: 'Refer a friend', path: '/refer', page: <ComingSoon /> },
     { title: 'Support', path: '/support', page: <ComingSoon /> },
@@ -47,7 +47,7 @@ const App = () => {
       <Router>
         <div>
           <NavBar nav={nav} />
-          <PageHeader />
+          <PageHeader nav={nav} />
           <Routes>
             {
               nav.filter(({ page }) => !!page).map(nav => (

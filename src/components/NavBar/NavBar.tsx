@@ -19,7 +19,7 @@ export const NavBar = (props: { nav: NavItem[] }) => {
   const { pathname } = useLocation()
 
   const navItemComponent = (navItem: NavItem) => (
-    <li className={matchPath(navItem.path, pathname) ? 'text-turquoise' : ''}>
+    <li key={navItem.path} className={matchPath(navItem.path, pathname) ? 'text-turquoise' : ''}>
       <Link to={navItem.path}>{ navItem.title }</Link>
     </li>
   )
