@@ -1,4 +1,4 @@
-.container {
+/* .container {
   padding: 50px;
 }
 
@@ -11,4 +11,24 @@
 
 h1 {
   margin-bottom: 50px;
+} */
+
+.chakra-tabs__tablist {
+  @apply bg-blue-900 space-x-5 !border-blue-900;
+}
+
+.chakra-tabs__tab {
+  @apply !px-0;
+}
+
+.chakra-tabs__tab[aria-selected="false"] {
+  @apply text-white !border-blue-900;
+}
+
+.chakra-tabs__tab[aria-selected="true"] {
+  @apply !text-emerald-700;
+}
+
+.chakra-tabs__tab-panel {
+  @apply !px-12 !py-7;
 }

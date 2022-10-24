@@ -1,6 +1,6 @@
-import { AxiosResponse } from "axios"
+import { AxiosResponse } from 'axios'
 import axiosInstance from '../plugins/axios'
-import { Portfolio, PortfolioDetails } from "../types/Portfolio"
+import { Portfolio, PortfolioDetails } from '../types/Portfolio'
 
 export const getSriPortfolios = (): Promise<AxiosResponse<Portfolio[], any>> =>
   axiosInstance.get('/portfolios')

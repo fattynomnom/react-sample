@@ -1,0 +1,3 @@
+li {
+    @apply text-white hover:text-emerald-700;
+}

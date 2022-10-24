@@ -1,0 +1,21 @@
+.chakra-select {
+    @apply !bg-white;
+}
+
+.chakra-select__icon-wrapper {
+    @apply !text-emerald-700;
+}
+
+.vs-container {
+    @apply absolute rounded-full bg-blue-500 p-2 h-[45px] w-[45px] text-center text-white text-xl font-bold;
+    top: calc(50% - 45px / 2);
+    left: calc(50% - 35px);
+}
+
+.filter-button {
+    @apply text-emerald-700 px-2 py-1 rounded;
+}
+
+.filter-button.selected {
+    @apply bg-emerald-700 text-white;
+}
