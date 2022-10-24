@@ -36,14 +36,14 @@ export const BenchmarkFilterCard = (props: {
   )
 
   return (
-    <div className='space-y-5'>
+    <div className='space-y-7'>
       <div className='relative'>
         <div className='bg-gray-100 rounded overflow-hidden flex'>
           <div className='p-7 space-y-2 flex-1'>
-            <div className='text-blue-900'>
+            <div className='text-dark-blue'>
               General investing
             </div>
-            <div className='text-blue-500 text-lg'>
+            <div className='text-blue-500 font-bold text-lg'>
               { portfolioName }
             </div>
           </div>

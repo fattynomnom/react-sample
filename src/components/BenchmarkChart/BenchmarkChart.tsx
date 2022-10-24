@@ -5,12 +5,12 @@ import { PortfolioDetails, ReturnPeriod } from '../../types/Portfolio'
 export const BenchmarkChart = (props: {
     period: ReturnPeriod
     portfolio: PortfolioDetails | null
-    benchmarkPortfolios: PortfolioDetails[]
+    benchmarkPortfolio: PortfolioDetails | null
 }) => {
     const {
       period,
       portfolio,
-      benchmarkPortfolios
+      benchmarkPortfolio
     } = props
 
     const intervalTypeMapper: Record<ReturnPeriod, 'day' | 'month' | 'year'> = {
@@ -19,8 +19,8 @@ export const BenchmarkChart = (props: {
       yearly: 'year'
     }
 
-    const formatMapper: Record<ReturnPeriod, 'MMMM' | 'YYYY' | undefined> = {
-      daily: undefined,
+    const formatMapper: Record<ReturnPeriod, 'DD MMM' | 'MMMM' | 'YYYY'> = {
+      daily: 'DD MMM',
       monthly: 'MMMM',
       yearly: 'YYYY'
     }
@@ -29,51 +29,65 @@ export const BenchmarkChart = (props: {
       animationEnabled: true,
       theme: 'dark2',
       title: { text: '' },
-      backgroundColor: '#1e3b8a',
-      axisY: { title: '', suffix: '%' },
+      backgroundColor: '#072340',
+      axisY: { title: '' },
       axisX: {
         title: '',
         interval: 1,
         intervalType: intervalTypeMapper[period],
         valueFormatString: formatMapper[period]
       },
-      legend: {
-        horizontalAlign: 'left',
-        verticalAlign: 'top'
-      },
       data: [
         {
           type: 'line',
-          showInLegend: true,
           legendText: portfolio?.name || '',
           toolTipContent: `${portfolio?.name || ''}: {y}%`,
-          dataPoints: portfolio?.returns?.map(({ date, returnsPercentage }) => ({
+          lineColor: '#3B82F6',
+          markerColor: 'transparent',
+          dataPoints: portfolio?.returns?.map(({ date, value }) => ({
             x: new Date(date),
-            y: returnsPercentage
+            y: value
           })) || []
         },
-        ...benchmarkPortfolios.map(({ name, returns }) => ({
+        (!!benchmarkPortfolio && {
           type: 'line',
-          showInLegend: true,
-          legendText: name,
-          toolTipContent: `${name}: {y}%`,
-          dataPoints: returns.map(({ date, returnsPercentage }) => ({
+          legendText: benchmarkPortfolio.name,
+          toolTipContent: `${benchmarkPortfolio.name}: {y}%`,
+          lineColor: '#FFC35D',
+          markerColor: 'transparent',
+          dataPoints: benchmarkPortfolio.returns.map(({ date, value }) => ({
             x: new Date(date),
-            y: returnsPercentage
+            y: value
           }))
-        }))
+        })
       ]
-    }), [portfolio, benchmarkPortfolios])
+    }), [portfolio, benchmarkPortfolio])
 
     return (
-      <div className='bg-blue-900 rounded p-10'>
-        <h1 className='text-xl text-white font-bold'>
-          Portfolio value based on gross returns
-        </h1>
-        <div className='text-white mb-4'>
-          Gross returns and exchange rates sourced from Bloomberg as of 2nd May 2019
+      <div className='bg-dark-blue rounded p-10 space-y-10'>
+        <div>
+          <h1 className='text-xl text-white font-bold'>
+            Portfolio value based on gross returns
+          </h1>
+          <div className='text-white'>
+            Gross returns and exchange rates sourced from Bloomberg as of 2nd May 2019
+          </div>
         </div>
         <CanvasJS.CanvasJSChart options={barChartConfig} />
+        <div className='grid gap-7 grid-cols-4'>
+          <div className='col-start-2 flex space-x-4 items-center'>
+            <div className='w-5 h-[2px] bg-turquoise' />
+            <span className='text-white'>
+              { portfolio?.name || '' }
+            </span>
+          </div>
+          <div className='flex space-x-4 items-center'>
+            <div className='w-5 h-[2px] bg-orange' />
+            <span className='text-white'>
+              { benchmarkPortfolio?.name || '' }
+            </span>
+          </div>
+        </div>
       </div>
     )
 }

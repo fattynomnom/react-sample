@@ -3,7 +3,7 @@
 }
 
 .chakra-select__icon-wrapper {
-    @apply !text-emerald-700;
+    @apply !text-turquoise;
 }
 
 .vs-container {
@@ -13,9 +13,9 @@
 }
 
 .filter-button {
-    @apply text-emerald-700 px-2 py-1 rounded;
+    @apply text-turquoise px-2 py-1 rounded;
 }
 
 .filter-button.selected {
-    @apply bg-emerald-700 text-white;
+    @apply bg-turquoise text-white;
 }

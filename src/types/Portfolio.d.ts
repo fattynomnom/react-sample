@@ -5,7 +5,7 @@ export interface Portfolio {
 
 export interface Return {
   date: string
-  returnsPercentage: number
+  value: number
 }
 
 export interface PortfolioDetails extends Portfolio {

@@ -24,7 +24,7 @@ const ReturnsFactory = (range: string[], period: ReturnPeriod): Return[] => {
 
     return dates.map(date => ({
         date: date.toString(),
-        returnsPercentage: Math.random() * 10
+        value: Math.floor((Math.random() * 400000) + 100000)
     }))
 }
 

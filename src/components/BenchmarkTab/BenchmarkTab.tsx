@@ -46,7 +46,7 @@ export const BenchmarkTab = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const [benchmarkPortfolios, setBenchmarkPortfolios] = useState<PortfolioDetails[]>([])
-  const [selectedBenchmarkPortfolios, setSelectedBenchmarkPortfolios] = useState<PortfolioDetails[]>([])
+  const [selectedBenchmarkPortfolio, setSelectedBenchmarkPortfolio] = useState<PortfolioDetails | null>(null)
 
   const [selectedPortfolio, setSelectedPortfolio] = useState<PortfolioDetails | null>(null)
 
@@ -70,7 +70,7 @@ export const BenchmarkTab = () => {
     setIsLoading(false)
   }
 
-  const fetchSelectedBenchmarkPortfolios = () => {
+  const fetchSelectedBenchmarkPortfolio = () => {
     if (!selectedBenchmarkPortfolioId) return
 
     setIsLoading(true)
@@ -79,7 +79,7 @@ export const BenchmarkTab = () => {
         if (data.length === 0) {
           setDoShowError(true)
         } else {
-          setSelectedBenchmarkPortfolios(data)
+          setSelectedBenchmarkPortfolio(data[0])
         }
       })
       .catch(() => {
@@ -107,7 +107,7 @@ export const BenchmarkTab = () => {
 
   useEffect(() => {
     fetchPortfolio()
-    fetchSelectedBenchmarkPortfolios()
+    fetchSelectedBenchmarkPortfolio()
   }, [selectedBenchmarkPortfolioId, selectedPeriod, selectedCurrency])
 
   const skeleton = (
@@ -121,7 +121,7 @@ export const BenchmarkTab = () => {
   const chart = (
     <div className='space-y-3'>
       <BenchmarkFilterCard
-        portfolioName='StashAway Risk Index 14%'
+        portfolioName={selectedPortfolio?.name || ''}
         benchmarkPortfolios={benchmarkPortfolios}
         periodOptions={periodOptions}
         selectedPeriod={selectedPeriod}
@@ -134,7 +134,7 @@ export const BenchmarkTab = () => {
       <BenchmarkChart
         period={selectedPeriod.period}
         portfolio={selectedPortfolio}
-        benchmarkPortfolios={selectedBenchmarkPortfolios}
+        benchmarkPortfolio={selectedBenchmarkPortfolio}
       />
     </div>
   )
@@ -142,7 +142,7 @@ export const BenchmarkTab = () => {
 
   return (
     <div className='space-y-5'>
-      <h1 className='text-xl text-blue-900 font-bold'>
+      <h1 className='text-xl text-dark-blue font-black'>
         Portfolio benchmark
       </h1>
       { isLoading ? skeleton : mainComponent}
