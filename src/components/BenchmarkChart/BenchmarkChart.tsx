@@ -78,7 +78,7 @@ export const BenchmarkChart = (props: {
         <CanvasJS.CanvasJSChart options={barChartConfig} />
         <div className='grid gap-7 grid-cols-2 lg:grid-cols-4'>
           <div className='col-start-1 lg:col-start-2 flex space-x-4 items-center'>
-            <div className='w-5 h-[2px] bg-turquoise' />
+            <div className='w-5 h-[2px] bg-blue-500' />
             <span className='text-white'>
               { portfolio?.name || '' }
             </span>
