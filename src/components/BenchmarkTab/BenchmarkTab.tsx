@@ -1,42 +1,67 @@
 import { useEffect, useState } from 'react'
-import moment, { Moment } from 'moment'
+import moment from 'moment'
 import { Skeleton, Stack } from '@chakra-ui/react'
-import { Portfolio, PortfolioDetails, RangeValue } from '../../types/Portfolio.d'
-import { PeriodOption, PeriodValue } from '../BenchmarkFilterCard/types'
-import { getSriPortfolios, getOtherPortfolios, getSriPortfolioDetails } from '../../repositories'
+import { PortfolioDetails } from '../../types/Portfolio.d'
+import { PeriodOption } from '../BenchmarkFilterCard/types'
+import { getBenchmarkPortfolios, getSriPortfolioDetails } from '../../repositories'
 import { BenchmarkFilterCard } from '../BenchmarkFilterCard/BenchmarkFilterCard'
 import { BenchmarkChart } from '../BenchmarkChart/BenchmarkChart'
 
 export const BenchmarkTab = () => {
   const periodOptions: PeriodOption[] = [
-    { title: '1 month', range: [moment().subtract(1, 'months').startOf('day').toDate(), moment().startOf('day').toDate()] },
-    { title: '6 months', range: [moment().subtract(6, 'months').startOf('day').toDate(), moment().startOf('day').toDate()] },
-    { title: 'Year to date', range: [moment().startOf('year').startOf('day').toDate(), moment().startOf('day').toDate()] },
-    { title: '1 year', range: [moment().subtract(1, 'years').startOf('day').toDate(), moment().startOf('day').toDate()] },
-    { title: '5 years', range: [moment().subtract(5, 'years').startOf('day').toDate(), moment().startOf('day').toDate()] },
-    { title: 'Max', range: null },
+    { 
+      title: '1 month', 
+      range: [moment().subtract(1, 'months').startOf('day').toDate(), moment().startOf('day').toDate()],
+      period: 'daily'
+    },
+    { 
+      title: '6 months', 
+      range: [moment().subtract(6, 'months').startOf('day').toDate(), moment().startOf('day').toDate()],
+      period: 'monthly'
+    },
+    { 
+      title: 'Year to date', 
+      range: [moment().startOf('year').startOf('day').toDate(), moment().startOf('day').toDate()],
+      period: 'monthly'
+    },
+    { 
+      title: '1 year', 
+      range: [moment().subtract(1, 'years').startOf('day').toDate(), moment().startOf('day').toDate()],
+      period: 'monthly'
+    },
+    { 
+      title: '5 years',
+      range: [moment().subtract(5, 'years').startOf('day').toDate(), moment().startOf('day').toDate()],
+      period: 'yearly'
+    },
+    { 
+      title: 'Max', 
+      range: null, 
+      period: 'yearly' 
+    }
   ]
   const currencies: string[] = ['SGD', 'USD']
 
-  const [sriPortfolios, setSriPortfolios] = useState<Portfolio[]>([])
-  const [otherPortfolios, setOtherPortfolios] = useState<PortfolioDetails[]>([])
   const [doShowError, setDoShowError] = useState<boolean>(false)
-  const [displayedSriPortfolio, setDisplayedSriPortfolio] = useState<PortfolioDetails | null>(null)
-  const [displayedOtherPortfolios, setDisplayedOtherPortfolios] = useState<PortfolioDetails[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [selectedPeriod, setSelectedPeriod] = useState<PeriodValue>(periodOptions[0].range)
+
+  const [benchmarkPortfolios, setBenchmarkPortfolios] = useState<PortfolioDetails[]>([])
+  const [selectedBenchmarkPortfolios, setSelectedBenchmarkPortfolios] = useState<PortfolioDetails[]>([])
+
+  const [selectedPortfolio, setSelectedPortfolio] = useState<PortfolioDetails | null>(null)
+
+  const [selectedPeriod, setSelectedPeriod] = useState<PeriodOption>(periodOptions[0])
   const [selectedBenchmarkPortfolioId, setSelectedBenchmarkPortfolioId] = useState<string>()
   const [selectedCurrency, setSelectedCurrency] = useState<string>(currencies[0])
-  const defaultDateRange: [Moment, Moment] = [moment().subtract(6, 'months'), moment()]
 
-  const fetchSriPortfolios = () => {
+  const fetchAllBenchmarkPortfolios = () => {
     setIsLoading(true)
-    getSriPortfolios()
+    getBenchmarkPortfolios([], selectedPeriod.range, selectedPeriod.period)
       .then(({ data }) => {
         if (data.length === 0) {
           setDoShowError(true)
         } else {
-          setSriPortfolios(data)
+          setBenchmarkPortfolios(data)
         }
       })
       .catch(() => {
@@ -45,51 +70,29 @@ export const BenchmarkTab = () => {
     setIsLoading(false)
   }
 
-  const fetchOtherPortfolios = () => {
-    setIsLoading(true)
-    getOtherPortfolios([], defaultDateRange[0].month(), defaultDateRange[1].month())
-      .then(({ data }) => {
-        if (data.length === 0) {
-          setDoShowError(true)
-        } else {
-          setOtherPortfolios(data)
-        }
-      })
-      .catch(() => {
-        setDoShowError(true)
-      })
-    setIsLoading(false)
-  }
-
-  const fetchDisplayedSriPortfolio = (portfolioId: string, dateRange: RangeValue) => {
-    if (!portfolioId || !dateRange || !dateRange[0] || !dateRange[1]) return
-
-    setIsLoading(true)
-    // getSriPortfolioDetails(portfolioId, dateRange[0].month(), dateRange[1].month())
-    getSriPortfolioDetails(portfolioId, 1, 12)
-      .then(({ data }) => {
-        setDisplayedSriPortfolio(data)
-      })
-      .catch(() => {
-        setDoShowError(true)
-      })
-    setIsLoading(false)
-  }
-
-  const fetchDisplayedBenchmarkPortfolios = () => {
+  const fetchSelectedBenchmarkPortfolios = () => {
     if (!selectedBenchmarkPortfolioId) return
-    // todo: handle if period is null (max)
-    if (!selectedPeriod) return
 
     setIsLoading(true)
-    // todo: do not use start/end month anymore
-    getOtherPortfolios(
-      [selectedBenchmarkPortfolioId],
-      1,
-      12
-    )
+    getBenchmarkPortfolios([selectedBenchmarkPortfolioId], selectedPeriod.range, selectedPeriod.period)
       .then(({ data }) => {
-        setDisplayedOtherPortfolios(data)
+        if (data.length === 0) {
+          setDoShowError(true)
+        } else {
+          setSelectedBenchmarkPortfolios(data)
+        }
+      })
+      .catch(() => {
+        setDoShowError(true)
+      })
+    setIsLoading(false)
+  }
+
+  const fetchPortfolio = () => {
+    setIsLoading(true)
+    getSriPortfolioDetails('1', selectedPeriod.range, selectedPeriod.period)
+      .then(({ data }) => {
+        setSelectedPortfolio(data)
       })
       .catch(() => {
         setDoShowError(true)
@@ -98,20 +101,14 @@ export const BenchmarkTab = () => {
   }
 
   useEffect(() => {
-    fetchSriPortfolios()
-    fetchOtherPortfolios()
+    fetchPortfolio()
+    fetchAllBenchmarkPortfolios()
   }, [])
 
   useEffect(() => {
-    fetchDisplayedBenchmarkPortfolios()
-  }, [selectedBenchmarkPortfolioId])
-
-  useEffect(() => {
-    // todo: do not use constants
-    // todo: add currency to api
-    fetchDisplayedSriPortfolio('1', selectedPeriod)
-    fetchDisplayedBenchmarkPortfolios()
-  }, [selectedPeriod, selectedCurrency])
+    fetchPortfolio()
+    fetchSelectedBenchmarkPortfolios()
+  }, [selectedBenchmarkPortfolioId, selectedPeriod, selectedCurrency])
 
   const skeleton = (
     <Stack>
@@ -125,7 +122,7 @@ export const BenchmarkTab = () => {
     <div className='space-y-3'>
       <BenchmarkFilterCard
         portfolioName='StashAway Risk Index 14%'
-        benchmarkPortfolios={otherPortfolios}
+        benchmarkPortfolios={benchmarkPortfolios}
         periodOptions={periodOptions}
         selectedPeriod={selectedPeriod}
         currencies={currencies}
@@ -135,8 +132,9 @@ export const BenchmarkTab = () => {
         onCurrencySelected={setSelectedCurrency}
       />
       <BenchmarkChart
-        portfolio={displayedSriPortfolio}
-        benchmarkPortfolios={displayedOtherPortfolios}
+        period={selectedPeriod.period}
+        portfolio={selectedPortfolio}
+        benchmarkPortfolios={selectedBenchmarkPortfolios}
       />
     </div>
   )

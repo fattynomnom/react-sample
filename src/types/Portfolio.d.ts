@@ -4,7 +4,7 @@ export interface Portfolio {
 }
 
 export interface Return {
-  month: number
+  date: string
   returnsPercentage: number
 }
 
@@ -12,4 +12,4 @@ export interface PortfolioDetails extends Portfolio {
   returns: Return[]
 }
 
-export type RangeValue = [Moment | null, Moment | null] | null
+export type ReturnPeriod = 'daily' | 'monthly' | 'yearly'

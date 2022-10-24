@@ -8,11 +8,11 @@ export const BenchmarkFilterCard = (props: {
   portfolioName: string
   benchmarkPortfolios: PortfolioDetails[]
   periodOptions: PeriodOption[]
-  selectedPeriod: PeriodValue
+  selectedPeriod: PeriodOption
   currencies: string[]
   selectedCurrency: string
   onBenchmarkPortfolioSelected: (id: string) => void
-  onPeriodSelected: (range: PeriodValue) => void
+  onPeriodSelected: (range: PeriodOption) => void
   onCurrencySelected: (currency: string) => void
 }) => {
   const {
@@ -31,8 +31,8 @@ export const BenchmarkFilterCard = (props: {
     onBenchmarkPortfolioSelected(e.target.value)
   }
 
-  const isPeriodSelected = (period: PeriodValue) => (
-    period === selectedPeriod || period?.every((date, index) => date.toString() === selectedPeriod?.[index]?.toString())
+  const isPeriodSelected = (range: PeriodValue) => (
+    range === selectedPeriod.range || range?.every((date, index) => date.toString() === selectedPeriod?.range?.[index]?.toString())
   )
 
   return (
@@ -73,7 +73,7 @@ export const BenchmarkFilterCard = (props: {
               <button
                 key={option.title}
                 className={`filter-button ${isPeriodSelected(option.range) && 'selected'}`}
-                onClick={() => onPeriodSelected(option.range)}
+                onClick={() => onPeriodSelected(option)}
               >
                 { option.title }
               </button>

@@ -1,34 +1,30 @@
 import { rest } from 'msw'
-import portfolios from './responses/portfolios.json'
 import otherPortfolios from './responses/otherPortfolios.json'
-import MonthlyReturnsFactory from './factories/MonthlyReturnsFactory'
-import { PortfolioDetails } from '../../types/Portfolio.d'
+import ReturnsFactory from './factories/ReturnsFactory'
+import { PortfolioDetails, ReturnPeriod } from '../../types/Portfolio.d'
 
 const baseUrl = process.env.REACT_APP_API_PATH
 
 const handlers = [
-  rest.get(`${baseUrl}/portfolios`, (_, response, context) => {
-    return response(context.status(200), context.json(portfolios))
-  }),
   rest.get(`${baseUrl}/portfolios/:id`, (request, response, context) => {
     const id = request.params.id
-    const startMonth = Number(request.url.searchParams.get('startMonth'))
-    const endMonth = Number(request.url.searchParams.get('endMonth'))
-    const portfolio = portfolios.find(({ id: portfolioId }) => portfolioId === id)
+    const range = request.url.searchParams.getAll('range[]')
+    const period = request.url.searchParams.get('period') as ReturnPeriod
 
     return response(context.status(200), context.json({
       id,
-      name: portfolio?.name || '',
-      returns: MonthlyReturnsFactory(startMonth, endMonth)
+      name: 'StashAway Risk Index 14%',
+      returns: ReturnsFactory(range, period)
     }))
   }),
+
   rest.get(`${baseUrl}/other-portfolios`, (request, response, context) => {
     const ids = request.url.searchParams.getAll('ids[]')
-    const startMonth = Number(request.url.searchParams.get('startMonth'))
-    const endMonth = Number(request.url.searchParams.get('endMonth'))
+    const range = request.url.searchParams.getAll('range[]')
+    const period = request.url.searchParams.get('period') as ReturnPeriod
     const otherPortfoliosDetails: PortfolioDetails[] = otherPortfolios.map(portfolio => ({
       ...portfolio,
-      returns: MonthlyReturnsFactory(startMonth, endMonth)
+      returns: ReturnsFactory(range, period)
     }))
 
     if (ids.length <= 0) {
