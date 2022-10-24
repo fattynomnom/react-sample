@@ -25,7 +25,7 @@ const App = () => {
         <NavBar />
         <PageHeader />
         <Tabs>
-          <div className='flex justify-between items-center bg-dark-blue px-12'>
+          <div className='flex justify-between items-center bg-dark-blue px-5 lg:px-12 overflow-y-auto space-x-5'>
             <TabList>
               <Tab>Overview</Tab>
               <Tab>Assets</Tab>
@@ -35,7 +35,7 @@ const App = () => {
             <ChakraPopover>
               <PopoverTrigger>
                 <button className='flex items-center text-white space-x-2'>
-                  <span>More actions</span>
+                  <div className='flex-shrink-0'>More actions</div>
                   <ChevronDownIcon />
                 </button>
               </PopoverTrigger>

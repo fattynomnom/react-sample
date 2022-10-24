@@ -8,8 +8,15 @@
 
 .vs-container {
     @apply absolute rounded-full bg-blue-500 p-2 h-[45px] w-[45px] text-center text-white text-xl font-bold;
-    top: calc(50% - 45px / 2);
-    left: calc(50% - 35px);
+    top: calc(-45px / 2);
+    left: calc(50% - 45px / 2);
+}
+
+@media (min-width: 1024px) {
+    .vs-container {
+        top: calc(50% - 45px / 2);
+        left: calc(-45px / 2);
+    }
 }
 
 .filter-button {

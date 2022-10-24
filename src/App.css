@@ -15,5 +15,5 @@
 }
 
 .chakra-tabs__tab-panel {
-  @apply !px-12 !py-7;
+  @apply !px-5 lg:!px-12 !py-7;
 }

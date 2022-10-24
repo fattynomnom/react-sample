@@ -4,8 +4,11 @@
 
 body {
   font-family: 'Mulish', sans serif !important;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  @apply flex flex-col overflow-x-hidden;
+}
+
+#root {
+  @apply flex flex-col overflow-x-hidden;
 }
 
 @font-face {

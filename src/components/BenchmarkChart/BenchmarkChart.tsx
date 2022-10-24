@@ -76,19 +76,23 @@ export const BenchmarkChart = (props: {
           </div>
         </div>
         <CanvasJS.CanvasJSChart options={barChartConfig} />
-        <div className='grid gap-7 grid-cols-4'>
-          <div className='col-start-2 flex space-x-4 items-center'>
+        <div className='grid gap-7 grid-cols-2 lg:grid-cols-4'>
+          <div className='col-start-1 lg:col-start-2 flex space-x-4 items-center'>
             <div className='w-5 h-[2px] bg-turquoise' />
             <span className='text-white'>
               { portfolio?.name || '' }
             </span>
           </div>
-          <div className='flex space-x-4 items-center'>
-            <div className='w-5 h-[2px] bg-orange' />
-            <span className='text-white'>
-              { benchmarkPortfolio?.name || '' }
-            </span>
-          </div>
+          { 
+            !!benchmarkPortfolio && (
+              <div className='flex space-x-4 items-center'>
+                <div className='w-5 h-[2px] bg-orange' />
+                <span className='text-white'>
+                  { benchmarkPortfolio?.name || '' }
+                </span>
+              </div>
+            )
+          }
         </div>
       </div>
     )
