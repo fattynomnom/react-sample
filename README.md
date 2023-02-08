@@ -3,7 +3,7 @@ This is a simple app to compare StashAway product returns with competitor return
 
 # Getting Started
 - Copy `.env.example` and rename it as `.env`
-- Run `npm run install`
+- Run `npm install`
 
 # Development
 Use `npm run dev` to serve the web app in development mode

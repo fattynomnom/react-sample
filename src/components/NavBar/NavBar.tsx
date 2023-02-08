@@ -27,7 +27,7 @@ export const NavBar = (props: { nav: NavItem[] }) => {
   return (
     <div className='bg-dark-blue flex justify-between items-center px-5 lg:px-12 py-7'>
       <h1 className='text-lg font-black text-white'>
-        StashAway
+        Company X
       </h1>
 
       <button className='block lg:hidden' onClick={onOpen}>

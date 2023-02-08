@@ -14,7 +14,7 @@ const handlers = [
 
     return response(context.status(200), context.json({
       id,
-      name: 'StashAway Risk Index 14%',
+      name: 'Company X Risk Index 14%',
       returns: ReturnsFactory(range, period, currency)
     }))
   }),
